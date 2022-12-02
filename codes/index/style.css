@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    background-color: black;
+}
+h1{
+    width: fit-content;
+    height: fit-content;
+    margin: 354px auto;
+    font-size: 150px;
+    text-shadow: 0 0 50px white;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+a:hover{
+    color: yellow;
+}

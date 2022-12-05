@@ -68,6 +68,11 @@ a{
 #ra{
     border-top-right-radius: 30%;
 }
+.pa{
+    color: black;
+    background-color: wheat;
+    box-shadow: 0 5px 5px wheat;
+}
 a:hover{
     color: black;
     background-color: wheat;

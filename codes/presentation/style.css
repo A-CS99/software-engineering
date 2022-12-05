@@ -43,7 +43,7 @@ span{
     float: left;
 }
 #nv{
-    width: fit-content;
+    width: 600px;
     height: fit-content;
     margin: 0 auto;
     font-size: 0;

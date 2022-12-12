@@ -7,6 +7,23 @@
     <title>实验2</title>
     <link rel="stylesheet" href="./style.css">
     <script src="./action.js"></script>
+    <style>
+        #container{
+            width: 675px;
+            height: 1200px;
+            margin: 40px auto;
+        }
+        .correctBox{
+            width: 1200px;
+            height: 675px;
+            margin: 20px auto;
+            color: red;
+        }
+        #correct{
+            width: 1200px;
+            height: 675px;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -26,9 +43,13 @@
         </div>
     </nav>
     <div id="container">
-        <video width="1200px" height="675px" controls poster="../../imgs/封面.png">
+        <video width="675px" height="1200px" controls>
             <source src="../../videos/实验二.mp4" type="video/mp4">
         </video>
+    </div>
+    <div class="correctBox">
+        修正后
+        <img id="correct" src="../../imgs/correct.jpg" alt="修正后">
     </div>
 </body>
 </html>

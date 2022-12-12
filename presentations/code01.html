@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验代码1</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav>
+        <div id="info">
+            <img id="icon" src="../imgs/抹茶旦旦.jpg" alt="头像">
+            <div id="person">
+                <span>姓名：贺佳明</span>
+                <span>学号：2022211489</span>
+            </div>
+        </div>
+        <div id="nv">
+            <a id="la" class="pa" href="./experiment01.html">实验1</a>
+            <a href="./experiment02.html">实验2</a>
+            <a href="./experiment03.html">实验3</a>
+            <a href="./experiment04.html">实验4</a>
+            <a id="ra" href="./experiment05.html">实验5</a>
+        </div>
+    </nav>
+    <div id="container">
+        <textarea class="code">
+
+
+            #include <IRremote.h>
+    
+            int RECV_PIN=10;
+            int ledPin=13;                    //LED -digital 13
+            boolean ledState=HIGH;           //ledState用来存储LED的状态
+            IRrecv irrecv(RECV_PIN);
+            decode_results results;
+            
+            
+            
+            void setup() {
+                // put your setup code here, to run once:
+                Serial.begin(9600);
+                irrecv.enableIRIn();
+                pinMode(ledPin,OUTPUT);         //设置LED为输出状态
+                
+            }
+            
+            void loop() {
+                // put your main code here, to run repeatedly:
+                if(irrecv.decode(&results)){
+                Serial.println(results.value,HEX);
+                if(results.value==0xFD00FF){       //如果接受到的是电源键的信号，LED翻转状态
+                
+                    ledState=!ledState;
+                    digitalWrite(ledPin,ledState);
+                }
+                irrecv.resume();
+                }
+            }
+        </textarea>
+        <div class="code_pre">
+            <a href="./experiment01.html">查看演示</a>
+        </div>
+    </div>
+</body>
+</html>

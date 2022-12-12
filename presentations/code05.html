@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验代码5</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav>
+        <div id="info">
+            <img id="icon" src="../imgs/抹茶旦旦.jpg" alt="头像">
+            <div id="person">
+                <span>姓名：贺佳明</span>
+                <span>学号：2022211489</span>
+            </div>
+        </div>
+        <div id="nv">
+            <a id="la" href="./experiment01.html">实验1</a>
+            <a href="./experiment02.html">实验2</a>
+            <a href="./experiment03.html">实验3</a>
+            <a href="./experiment04.html">实验4</a>
+            <a id="ra" class="pa" href="./experiment05.html">实验5</a>
+        </div>
+    </nav>
+    <div id="container">
+        <textarea class="code">
+
+
+            #include <IRremote.h>
+
+            #include <LiquidCrystal_I2C.h>
+            LiquidCrystal_I2C lcd(0x20,16,2);                                
+            
+            int RECV_PIN=10;                                                 //定义红外接收的数字引脚口为10号口
+            IRrecv irrecv(RECV_PIN);
+            decode_results results;
+            
+            int i, timeInterval;
+            int x, y, Time;
+            long rdNumber;
+            int jumpInterval, setInterval;
+            boolean isBarrier[16], isBump;
+            
+            void setBarriers();
+            void Jump();
+            void moveBarriers();
+            void checkBump();
+            
+            void setup(){
+                x = 1;
+                y = 1;
+                Time = 0;
+                isBump = false;
+                timeInterval = 1;
+                jumpInterval = 2;
+                setInterval = 2;
+                randomSeed(analogRead(0));
+                for(i = 0; i < 16; i++){
+                isBarrier[i] = false;
+                }
+                Serial.begin(9600);
+                irrecv.enableIRIn();
+                lcd.init();
+                lcd.backlight();
+            }
+            
+            void loop(){
+                lcd.clear();
+                if(isBump){
+                lcd.setCursor(3,0);
+                lcd.print("GAME  OVER!");
+                lcd.setCursor(4,1);
+                lcd.print("Time: ");
+                lcd.print(Time);
+                if(irrecv.decode(&results)){
+                    if(results.value==0xFD00FF){
+                    x = 1;
+                    y = 1;
+                    isBump = false;
+                    jumpInterval = 2;
+                    setInterval = 2;
+                    for(i = 0; i < 16; i++){
+                        isBarrier[i] = false;
+                    }
+                    }
+                    irrecv.resume();
+                }
+                }else{
+                lcd.setCursor(x,y);
+                lcd.print("@");
+                Jump();
+                setBarriers();
+                for(i = 0; i < 16; i++){
+            //      Serial.print(isBarrier[i]);
+                    if(isBarrier[i]){
+                    lcd.setCursor(i, 1);
+                    lcd.print("n");
+                    }
+                }
+                moveBarriers();
+                checkBump();
+                Time++;
+                }
+                delay(500);
+            }
+            
+            void setBarriers(){
+                rdNumber = random(0,2);
+                if(rdNumber){
+                if(setInterval == 2){
+                    isBarrier[15] = true;
+                    setInterval = 0;
+                }else{
+                    setInterval++;
+                }
+                }
+            }
+            
+            void moveBarriers(){
+                for(i = 0; i < 16; i++){
+                if(isBarrier[i]){
+                    isBarrier[i] = false;
+                    if(i > 0){
+                    isBarrier[i -1] = true;
+                    }
+                }
+                }
+            }
+            
+            void Jump(){
+                if(irrecv.decode(&results)){
+                if(results.value == 0xFDA05F && y == 1){                           //如果接受到的是开始信号，则跳起
+                    jumpInterval = 0;
+                    y = 0;
+                }
+                irrecv.resume();
+                }
+                if(jumpInterval == 2){                          
+                y = 1;
+                }else{
+                jumpInterval++;
+                }
+            }
+            
+            void checkBump(){
+                if(y == 1 && isBarrier[x]){
+                isBump = true;
+                Time /= 2;
+                }
+            }
+        </textarea>
+        <div class="code_pre">
+            <a href="./experiment05.html">查看演示</a>
+        </div>
+    </div>
+</body>
+</html>

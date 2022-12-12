@@ -81,5 +81,15 @@ a:hover{
 #container{
     width: 1200px;
     height: 675px;
-    margin: 40px auto;
+    margin: 30px auto;
+    margin-bottom: 0;
+}
+.code{
+    width : 1200px;
+    height : 675px;
+}
+.code_pre{
+    width: fit-content;
+    height: fit-content;
+    margin: 10px auto;
 }

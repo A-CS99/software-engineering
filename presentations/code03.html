@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验代码3</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav>
+        <div id="info">
+            <img id="icon" src="../imgs/抹茶旦旦.jpg" alt="头像">
+            <div id="person">
+                <span>姓名：贺佳明</span>
+                <span>学号：2022211489</span>
+            </div>
+        </div>
+        <div id="nv">
+            <a id="la" href="./experiment01.html">实验1</a>
+            <a href="./experiment02.html">实验2</a>
+            <a class="pa" href="./experiment03.html">实验3</a>
+            <a href="./experiment04.html">实验4</a>
+            <a id="ra" href="./experiment05.html">实验5</a>
+        </div>
+    </nav>
+    <div id="container">
+        <textarea class="code">
+
+
+            #include <LiquidCrystal_I2C.h>
+            #include <dht11.h>
+            #include<Wire.h>
+            LiquidCrystal_I2C lcd(0x20,16,2);//设置LCD的地址，2行，每行16字符
+            dht11 DHT;
+            #define DHT11_PIN 4
+            
+            void setup() {
+                // put your setup code here, to run once:
+                lcd.init();            // LCD初始化设置
+                lcd.backlight();      // 打开 LCD背光
+                Serial.begin(9600);  // 设置串口波特率9600
+                //串口输出”Type, status, Humidity(%), Temperature(C)”
+                Serial.print("Type, status, Humidity(%), Temperature(C)");
+                lcd.print("H:");   //LCD屏显示” Humidity(%):”
+                lcd.setCursor(8,0);     //光标移到第2行，第一个字符
+                lcd.print("T:");  //LCD屏显示”Temp(C):”
+                lcd.setCursor(0,1);
+                lcd.print("Happy Weekends!!");
+            }
+            
+            void loop() {
+                // put your main code here, to run repeatedly:
+                int chk;  //chk用于存储DHT11传感器的数据
+                Serial.print("DHT11, \t"); 
+                //读取 DHT11传感器的数据
+                chk = DHT.read(DHT11_PIN);   
+                switch (chk){ 
+                case DHTLIB_OK: 
+                    Serial.print("OK,\t"); 
+                        break; 
+                case DHTLIB_ERROR_CHECKSUM: 
+                    Serial.print("Checksum error,\t");  
+                    break; 
+                case DHTLIB_ERROR_TIMEOUT:
+                        Serial.print("Time out error,\t");  
+                        break; 
+                default:
+                    Serial.print("Unknown error,\t");  
+                    break; 
+                }
+                //串口显示温湿度值
+                Serial.print(DHT.humidity,1);   
+                Serial.print(",\t"); 
+                Serial.println(DHT.temperature,1); 
+                //LCD显示温湿度值
+                lcd.setCursor(2,0);   // lcd 光标移动到第1行某个位置
+                lcd.print(DHT.humidity,1);  // 打印湿度值
+                lcd.print("% ");
+                lcd.setCursor(10,0); // lcd 光标移动到第2行某个位置
+                lcd.print(DHT.temperature,1); // 打印温度值
+                lcd.print("C");
+                delay(2000); 
+            }
+        </textarea>
+        <div class="code_pre">
+            <a href="./experiment03.html">查看演示</a>
+        </div>
+    </div>
+</body>
+</html>

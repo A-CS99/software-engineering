@@ -79,9 +79,9 @@ a:hover{
     box-shadow: 0 5px 5px wheat;
 }
 #container{
-    width: 1200px;
-    height: 675px;
-    margin: 30px auto;
+    width: fit-content;
+    height: fit-content;
+    margin: 10px auto;
     margin-bottom: 0;
 }
 .code{
@@ -91,5 +91,5 @@ a:hover{
 .code_pre{
     width: fit-content;
     height: fit-content;
-    margin: 10px auto;
+    margin: 5px auto;
 }
